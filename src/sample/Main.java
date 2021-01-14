@@ -10,8 +10,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class Main extends Application {
-    //TODO: Git
-    //TODO: Показівать количество заметок при входе
+
     //TODO: Подключить базу данных
     //TODO: Обработка Exception'ов
     //TODO: Редактирование заметок
@@ -37,9 +36,12 @@ public class Main extends Application {
         stg = primaryStage;
         stg.setResizable(false);
         stg.setTitle("Notes");
-        AnchorPane rootNode = FXMLLoader.load(getClass().getResource("fxml/sample.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/sample.fxml"));
+        AnchorPane rootNode = loader.load();
         Font.loadFont(getClass().getResourceAsStream("style/Lobster-Regular.ttf"), 27);
         scene = new Scene(rootNode, 400, 600);
+        Controller controller = loader.getController();
+        controller.showQuantity();
         stg.setScene(scene);
         stg.getScene().getStylesheets().add(getClass().getResource("style/style.css").toExternalForm());
         stg.show();

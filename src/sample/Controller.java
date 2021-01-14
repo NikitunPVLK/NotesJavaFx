@@ -8,8 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -48,6 +46,6 @@ public class Controller {
     }
 
     public void showQuantity(){
-        quantity.setText(((Integer) Main.notes.size()).toString());
+        quantity.setText("Количество заметок: " + ((Integer) Main.notes.size()).toString());
     }
 }

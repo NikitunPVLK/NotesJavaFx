@@ -1,0 +1,56 @@
+.add{
+    -fx-fill: #fff;
+    -fx-border-radius: 100;
+    -fx-background-radius: 100;
+    -fx-font-size: 5em;
+    -fx-border-color: #3edbc1;
+    -fx-background-color:  linear-gradient(#50e3e5,#3ebdc1);
+}
+
+.add:hover{
+    -fx-border-radius: 100;
+    -fx-background-radius: 100;
+    -fx-font-size: 5em;
+    -fx-border-color: #3edbc1;
+    -fx-background-color:  linear-gradient(#3ebdc1,#50e3e5);
+}
+
+.add:pressed{
+    -fx-border-radius: 100;
+    -fx-background-radius: 100;
+    -fx-font-size: 5em;
+    -fx-border-color: #3edbc1;
+    -fx-background-color:  linear-gradient(#35A1A4,#42BBBC);
+}
+
+.label{
+    -fx-font-family: Lobster;
+}
+
+.back{
+    -fx-shape: "M 352 127.996 H 176 v -72 c 0 -3.072 -1.768 -5.88 -4.528 -7.208 c -2.784 -1.32 -6.064 -0.96 -8.472 0.968 l -160 128 c -1.896 1.512 -3 3.808 -3 6.24 s 1.104 4.728 3 6.248 l 160 128 c 1.448 1.152 3.216 1.752 5 1.752 c 1.176 0 2.368 -0.264 3.472 -0.792 c 2.76 -1.328 4.528 -4.136 4.528 -7.208 v -72 h 176 c 8.824 0 16 -7.176 16 -16 v -80 C 368 135.172 360.824 127.996 352 127.996 Z Z";
+    -fx-background-color: #fafafa;
+}
+.back:hover{
+    -fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.3 ), 10, 0, 2, 2);
+}
+
+.back:pressed{
+    -fx-background-color: #dddddd;
+}
+
+.back:focused{
+    -fx-border-color: #dbdbdb;
+}
+
+.save{
+    -fx-background-color: #feaa3a;
+}
+
+.save:hover{
+    -fx-background-color: #ea9d36;
+}
+
+.save:pressed{
+    -fx-background-color: #d99531;
+}
