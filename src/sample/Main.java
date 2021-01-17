@@ -6,24 +6,49 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.postgresql.Driver;
+
+import javax.swing.plaf.nimbus.State;
+import java.sql.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class Main extends Application {
 
-    //TODO: Подключить базу данных
     //TODO: Обработка Exception'ов
     //TODO: Редактирование заметок
+    //TODO: Удаление заметок
     //TODO: Попробовать не с listView, а с VBox
 
-
     public static void main(String[] args) {
+        connection = getConnection();
         launch(args);
     }
 
+    static Connection connection;
     static Stage stg;
     static Scene scene;
     static ArrayList<Note> notes = new ArrayList<>();
+
+    private static Connection getConnection(){
+        String DBUrl = "jdbc:postgresql:Notes";
+        String user = "postgres";
+        String password = "pa2002nik";
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(DBUrl, user, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
+    }
 
     @Override
     public void init() throws Exception {
@@ -33,6 +58,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         stg = primaryStage;
         stg.setResizable(false);
         stg.setTitle("Notes");
@@ -42,6 +68,7 @@ public class Main extends Application {
         scene = new Scene(rootNode, 400, 600);
         Controller controller = loader.getController();
         controller.showQuantity();
+        controller.showNotes();
         stg.setScene(scene);
         stg.getScene().getStylesheets().add(getClass().getResource("style/style.css").toExternalForm());
         stg.show();
@@ -49,6 +76,7 @@ public class Main extends Application {
 
     @Override
     public void stop() throws Exception {
+        connection.close();
         super.stop();
     }
 

@@ -11,8 +11,15 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class addController {
+
+
+    //LocalDate localDate = LocalDate.now(); - время добавления
 
     @FXML
     private Button backButton;
@@ -36,8 +43,19 @@ public class addController {
 
     @FXML
     void save(ActionEvent event) {
-            Main.notes.add(new Note(name.getText(), note.getText(), deadline.getValue().toString()));
-            goBack();
+            //Insert into
+        try {
+            PreparedStatement ps = Main.connection.prepareStatement("INSERT INTO note (title, note , deadline) VALUES(?,?,?)");
+            ps.setString(1, name.getText());
+            ps.setString(2, note.getText());
+            ps.setDate(3, Date.valueOf(deadline.getValue()));
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //Main.notes.add(new Note(name.getText(), note.getText(), deadline.getValue().toString()));
+        goBack();
     }
 
     private void goBack(){

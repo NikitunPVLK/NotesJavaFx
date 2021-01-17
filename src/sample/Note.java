@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Date;
 
 public class Note extends AnchorPane {
+
     @FXML
     private TextFlow noteText;
 
