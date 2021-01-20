@@ -22,7 +22,6 @@ public class Main extends Application {
     //TODO: Попробовать не с listView, а с VBox
 
     public static void main(String[] args) {
-        connection = getConnection();
         launch(args);
     }
 
@@ -30,8 +29,9 @@ public class Main extends Application {
     static Stage stg;
     static Scene scene;
     static ArrayList<Note> notes = new ArrayList<>();
+    private static Controller controller;
 
-    private static Connection getConnection(){
+    public static Connection getConnection(){
         String DBUrl = "jdbc:postgresql:Notes";
         String user = "postgres";
         String password = "pa2002nik";
@@ -50,10 +50,14 @@ public class Main extends Application {
         return connection;
     }
 
+    public static Controller getController(){
+        return controller;
+    }
+
     @Override
     public void init() throws Exception {
+        connection = getConnection();
         super.init();
-        notes = new ArrayList<>();
     }
 
     @Override
@@ -66,7 +70,7 @@ public class Main extends Application {
         AnchorPane rootNode = loader.load();
         Font.loadFont(getClass().getResourceAsStream("style/Lobster-Regular.ttf"), 27);
         scene = new Scene(rootNode, 400, 600);
-        Controller controller = loader.getController();
+        controller = loader.getController();
         controller.showQuantity();
         controller.showNotes();
         stg.setScene(scene);

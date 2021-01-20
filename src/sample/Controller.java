@@ -43,7 +43,7 @@ public class Controller {
             Statement st = Main.connection.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM note");
             while(rs.next()){
-                list.getItems().add(new Note(rs.getString("title"),rs.getString("note"), rs.getDate("deadline").toString()));
+                list.getItems().add(new Note(rs.getInt("id"),rs.getString("title"),rs.getString("note"), rs.getDate("deadline").toString()));
             }
             rs.close();
             st.close();

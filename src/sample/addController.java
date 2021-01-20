@@ -11,10 +11,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.chrono.Chronology;
 
 public class addController {
 
@@ -41,11 +44,19 @@ public class addController {
         this.goBack();
     }
 
+    private Integer id;
+
     @FXML
     void save(ActionEvent event) {
-            //Insert into
+        //Insert into
+        PreparedStatement ps = null;
         try {
-            PreparedStatement ps = Main.connection.prepareStatement("INSERT INTO note (title, note , deadline) VALUES(?,?,?)");
+            if (id != null) {
+                ps = Main.connection.prepareStatement("UPDATE note SET title = ?, note = ?, deadline = ? WHERE id = ?");
+                ps.setInt(4, this.id);
+            } else {
+                ps = Main.connection.prepareStatement("INSERT INTO note (title, note , deadline) VALUES(?,?,?)");
+            }
             ps.setString(1, name.getText());
             ps.setString(2, note.getText());
             ps.setDate(3, Date.valueOf(deadline.getValue()));
@@ -58,7 +69,26 @@ public class addController {
         goBack();
     }
 
-    private void goBack(){
+    public void change(int id, String name, String note, String deadline) {
+        this.id = id;
+        this.name.setText(name);
+        this.note.setText(note);
+        this.deadline.setValue(LocalDate.parse(deadline));
+    }
+
+    public void setName(String name) {
+        this.name.setText(name);
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline.setChronology(deadline.toLocalDate().getChronology());
+    }
+
+    public void setNote(String note) {
+        this.note.setText(note);
+    }
+
+    private void goBack() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/sample.fxml"));
         try {
             Parent root = loader.load();
