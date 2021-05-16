@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.stream.Collectors;
 
 public class Controller {
 
@@ -28,7 +27,7 @@ public class Controller {
 
     @FXML
     void addNote(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/newScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/addingScene.fxml"));
         try {
             Parent root = fxmlLoader.load();
             Main.stg.setScene(new Scene(root));
@@ -43,12 +42,16 @@ public class Controller {
             Statement st = Main.connection.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM note");
             while(rs.next()){
-                list.getItems().add(new Note(rs.getInt("id"),rs.getString("title"),rs.getString("note"), rs.getDate("deadline").toString()));
+                try {
+                    list.getItems().add(new Note(rs.getInt("id"), rs.getString("title"), rs.getString("note"), rs.getDate("deadline").toString()));
+                } catch (NullPointerException e){
+                    list.getItems().add(new Note(rs.getInt("id"),rs.getString("title"),rs.getString("note"), "N/A"));
+                }
             }
             rs.close();
             st.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         //select all
         //list.getItems().addAll
@@ -59,8 +62,8 @@ public class Controller {
 
     public void showQuantity(){
         //Количество строк в таблице
-        Statement st = null;
-        ResultSet rs = null;
+        Statement st;
+        ResultSet rs;
         try {
             st = Main.connection.createStatement();
             rs = st.executeQuery("SELECT COUNT(*) FROM note");
@@ -69,8 +72,8 @@ public class Controller {
             }
             rs.close();
             st.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

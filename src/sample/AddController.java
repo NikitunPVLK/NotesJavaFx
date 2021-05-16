@@ -11,15 +11,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.chrono.Chronology;
+import java.time.format.DateTimeParseException;
 
-public class addController {
+public class AddController {
 
 
     //LocalDate localDate = LocalDate.now(); - время добавления
@@ -59,7 +57,11 @@ public class addController {
             }
             ps.setString(1, name.getText());
             ps.setString(2, note.getText());
-            ps.setDate(3, Date.valueOf(deadline.getValue()));
+            try {
+                ps.setDate(3, Date.valueOf(deadline.getValue()));
+            }catch (NullPointerException e){
+                ps.setDate(3, null);
+            }
             ps.executeUpdate();
             ps.close();
         } catch (SQLException throwables) {
@@ -69,11 +71,30 @@ public class addController {
         goBack();
     }
 
+    private void goBack() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/notesList.fxml"));
+        try {
+            Parent root = loader.load();
+            Controller controller = loader.getController();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("style/style.css").toExternalForm());
+            Main.stg.setScene(scene);
+            controller.showNotes();
+            controller.showQuantity();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void change(int id, String name, String note, String deadline) {
         this.id = id;
         this.name.setText(name);
         this.note.setText(note);
-        this.deadline.setValue(LocalDate.parse(deadline));
+        try {
+            this.deadline.setValue(LocalDate.parse(deadline));
+        }catch (DateTimeParseException e){
+            this.deadline.setValue(null);
+        }
     }
 
     public void setName(String name) {
@@ -86,21 +107,6 @@ public class addController {
 
     public void setNote(String note) {
         this.note.setText(note);
-    }
-
-    private void goBack() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/sample.fxml"));
-        try {
-            Parent root = loader.load();
-            Controller controller = loader.getController();
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("style/style.css").toExternalForm());
-            Main.stg.setScene(scene);
-            controller.showNotes();
-            controller.showQuantity();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }

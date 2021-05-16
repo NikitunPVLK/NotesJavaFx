@@ -41,10 +41,10 @@ public class Note extends AnchorPane {
     void change(ActionEvent event) {
         //UPDATE VALUE...
         //Открыть addController и заполнить его имеющемися значениями
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/newScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/addingScene.fxml"));
         try {
             Parent parent = loader.load();
-            addController controller = loader.getController();
+            AddController controller = loader.getController();
             Scene scene = new Scene(parent);
             scene.getStylesheets().add(getClass().getResource("style/style.css").toExternalForm());
             Main.stg.setScene(scene);
@@ -70,7 +70,7 @@ public class Note extends AnchorPane {
             statement.setInt(1, id);
             statement.executeUpdate();
             statement.close();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/sample.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/notesList.fxml"));
             try {
                 Parent root = loader.load();
                 Controller controller = loader.getController();
@@ -88,7 +88,7 @@ public class Note extends AnchorPane {
     }
 
     public Note(int id, String name, String text, String deadline) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/custom.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/note.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try {
